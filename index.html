@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Book Club Guide — EIC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Short+Stack&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:      #F7F3EB;
+      --paper-dark: #EDE8DC;
+      --line:       #C6D8EA;
+      --margin-red: #F4A0A0;
+      --ink:        #1C1C2E;
+      --ink-muted:  #6B6B8A;
+      --orange:     #FF6B00;
+      --pink:       #E91E8C;
+      --teal:       #00897B;
+      --purple:     #7B2FBE;
+      --blue:       #1565C0;
+      --amber:      #F57F17;
+      --yellow:     #FFD93D;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #C8C0B4;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, #BFB8AC 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, #D0C8BC 0%, transparent 50%);
+      font-family: 'Short Stack', cursive;
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 32px 16px 80px;
+    }
+
+    /* ── NOTEBOOK ── */
+    .notebook {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .notebook-inner {
+      background: var(--paper);
+      border-radius: 3px 6px 6px 3px;
+      box-shadow:
+        3px 3px 0 #B8B0A4,
+        6px 6px 0 #A8A098,
+        9px 9px 0 #989088,
+        12px 12px 20px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ruled lines */
+    .notebook-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        transparent 0px, transparent 31px,
+        var(--line) 31px, var(--line) 32px
+      );
+      background-position: 0 52px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* left margin red line */
+    .notebook-inner::after {
+      content: '';
+      position: absolute;
+      left: 88px;
+      top: 0; bottom: 0;
+      width: 1.5px;
+      background: var(--margin-red);
+      opacity: 0.7;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── BINDING ── */
+    .binding {
+      position: absolute;
+      left: -20px;
+      top: 0; bottom: 0;
+      width: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 24px 0;
+      z-index: 20;
+    }
+
+    .hole {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #C8C0B4;
+      border: 2px solid #A8A098;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
+    }
+
+    /* ── WASHI TOP ── */
+    .washi-top {
+      display: flex;
+      height: 14px;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .washi-seg { flex: 1; opacity: 0.8; }
+    .w1 { background: repeating-linear-gradient(45deg,#FFB3C6,#FFB3C6 6px,#FF8FAB 6px,#FF8FAB 12px); }
+    .w2 { background: repeating-linear-gradient(45deg,#AED6F1,#AED6F1 6px,#85C1E9 6px,#85C1E9 12px); }
+    .w3 { background: repeating-linear-gradient(45deg,#A9DFBF,#A9DFBF 6px,#7DCEA0 6px,#7DCEA0 12px); }
+    .w4 { background: repeating-linear-gradient(45deg,#FAD7A0,#FAD7A0 6px,#F8C471 6px,#F8C471 12px); }
+    .w5 { background: repeating-linear-gradient(45deg,#D7BDE2,#D7BDE2 6px,#C39BD3 6px,#C39BD3 12px); }
+    .w6 { background: repeating-linear-gradient(45deg,#FFDAB9,#FFDAB9 6px,#FFB6A3 6px,#FFB6A3 12px); }
+
+    /* ── CONTENT ── */
+    .page-content {
+      padding: 24px 36px 60px 108px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding-top: 8px;
+    }
+
+    .eic-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Short Stack', cursive;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 3px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .main-title {
+      font-family: 'Chewy', cursive;
+      font-size: clamp(36px, 6vw, 58px);
+      color: var(--ink);
+      line-height: 1.0;
+      letter-spacing: 1px;
+    }
+
+    .main-title span {
+      background: var(--yellow);
+      padding: 0 6px;
+      border-radius: 3px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--ink-muted);
+      margin-top: 6px;
+    }
+
+    .subtitle em {
+      font-style: normal;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .header-deco {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      padding-top: 12px;
+    }
+
+    .bookmark-strip {
+      width: 28px;
+      border-radius: 3px 3px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bookmark-strip::after {
+      content: '';
+      display: block;
+      width: 0; height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+    }
+
+    .bm1 { background: var(--pink); height: 55px; }
+    .bm1::after { border-top: 12px solid var(--pink); }
+    .bm2 { background: var(--teal); height: 42px; }
+    .bm2::after { border-top: 12px solid var(--teal); }
+    .bm3 { background: var(--yellow); height: 36px; border: 1px solid #E0B800; }
+    .bm3::after { border-top: 12px solid var(--yellow); }
+
+    /* ── SECTION TABS ── */
+    .section-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px 6px 12px;
+      border-radius: 0 20px 20px 0;
+      font-family: 'Short Stack', cursive;
+      font-size: 12px;
+      font-weight: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #fff;
+      margin-left: -108px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .tab-num {
+      font-family: 'Chewy', cursive;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .tab-orange { background: var(--orange); }
+    .tab-pink   { background: var(--pink); }
+    .tab-teal   { background: var(--teal); }
+    .tab-purple { background: var(--purple); }
+    .tab-blue   { background: var(--blue); }
+    .tab-amber  { background: var(--amber); }
+
+    /* ── POST-ITS ── */
+    .postit-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    .postit {
+      border-radius: 2px;
+      padding: 20px 18px 18px;
+      position: relative;
+      box-shadow: 2px 3px 8px rgba(0,0,0,0.13), 0 0 0 1px rgba(0,0,0,0.04);
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1a1a2e;
+
+      opacity: 0;
+      transform: translateY(-60px) rotate(var(--tilt, -2deg)) scale(0.92);
+      transition:
+        opacity 0.5s ease,
+        transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+
+    .postit.landed {
+      opacity: 1;
+      transform: rotate(var(--tilt, -2deg)) scale(1);
+    }
+
+    /* tape on top */
+    .postit::before {
+      content: '';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px; height: 14px;
+      border-radius: 2px;
+      opacity: 0.55;
+    }
+
+    .postit-yellow  { background: #FFF9C4; --tilt: -1.5deg; }
+    .postit-yellow::before  { background: #AADDFF; }
+    .postit-pink    { background: #FFD6E7; --tilt: 1.2deg; }
+    .postit-pink::before    { background: #FFD93D; }
+    .postit-green   { background: #C8F7C5; --tilt: -0.8deg; }
+    .postit-green::before   { background: #FFB3C6; }
+    .postit-blue    { background: #C8E6F7; --tilt: 1.8deg; }
+    .postit-blue::before    { background: #A9DFBF; }
+    .postit-orange  { background: #FFE0B2; --tilt: -1.2deg; }
+    .postit-orange::before  { background: #D7BDE2; }
+    .postit-purple  { background: #E1BEE7; --tilt: 0.9deg; }
+    .postit-purple::before  { background: #FAD7A0; }
+    .postit-teal    { background: #B2DFDB; --tilt: -1.8deg; }
+    .postit-teal::before    { background: #FFB3C6; }
+
+    .postit-wide { --tilt: -0.5deg; }
+    .postit-wide::before { width: 60px; }
+
+    .postit-title {
+      font-family: 'Chewy', cursive;
+      font-size: 20px;
+      margin-bottom: 6px;
+      line-height: 1.1;
+      color: #1a1a2e;
+    }
+
+    /* ── HIGHLIGHT ── */
+    .hl-y { background: #FFE066; padding: 1px 5px; border-radius: 2px; }
+    .hl-p { background: #FFB3D1; padding: 1px 5px; border-radius: 2px; }
+    .hl-g { background: #B5F5A0; padding: 1px 5px; border-radius: 2px; }
+    .hl-b { background: #AADDF5; padding: 1px 5px; border-radius: 2px; }
+
+    /* ── NOTEBOOK CARD ── */
+    .nb-card {
+      background: #FFFEF5;
+      border: 1px solid #E0D8C0;
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      position: relative;
+      box-shadow: 1px 2px 6px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+
+    .nb-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        transparent 0px, transparent 27px,
+        #E8F0F8 27px, #E8F0F8 28px
+      );
+      pointer-events: none;
+    }
+
+    .nb-card-content { position: relative; z-index: 1; }
+
+    /* ── STEP ROWS ── */
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 14px 0;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .step-row.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .step-circle {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      font-family: 'Chewy', cursive;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+    }
+
+    .step-text { font-size: 15px; line-height: 1.6; padding-top: 5px; }
+    .step-sub  { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+    /* ── PHRASE CARDS ── */
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 12px 0 24px;
+    }
+
+    .phrase-card {
+      background: #fff;
+      border: 2px solid;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.06);
+
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .phrase-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .phrase-card-title {
+      font-family: 'Chewy', cursive;
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .pc-orange { border-color: var(--orange); }
+    .pc-orange .phrase-card-title { color: var(--orange); }
+    .pc-pink   { border-color: var(--pink); }
+    .pc-pink .phrase-card-title   { color: var(--pink); }
+    .pc-teal   { border-color: var(--teal); }
+    .pc-teal .phrase-card-title   { color: var(--teal); }
+    .pc-purple { border-color: var(--purple); }
+    .pc-purple .phrase-card-title { color: var(--purple); }
+    .pc-blue   { border-color: var(--blue); }
+    .pc-blue .phrase-card-title   { color: var(--blue); }
+    .pc-amber  { border-color: var(--amber); }
+    .pc-amber .phrase-card-title  { color: var(--amber); }
+
+    /* ── VOCAB ROW ── */
+    .vocab-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #CCC;
+      font-size: 15px;
+    }
+    .vocab-row:last-child { border-bottom: none; }
+
+    .vocab-word {
+      font-family: 'Short Stack', cursive;
+      font-weight: normal;
+      font-size: 13px;
+      color: var(--blue);
+      background: #E3F2FD;
+      padding: 3px 10px;
+      border-radius: 4px;
+      min-width: 130px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* ── GOLDEN RULES ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .rule-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 18px 14px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.5;
+      border: 1.5px solid #E0E0E0;
+      box-shadow: 1px 2px 5px rgba(0,0,0,0.06);
+
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+
+    .rule-card.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .rule-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .rule-icon svg { width: 18px; height: 18px; }
+
+    .rule-title {
+      font-family: 'Chewy', cursive;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    /* ── QUOTE ── */
+    .quote-box {
+      background: #FFFDE7;
+      border: 2px dashed var(--yellow);
+      border-radius: 6px;
+      padding: 20px 24px;
+      text-align: center;
+      margin: 28px 0 8px;
+    }
+
+    .quote-text {
+      font-family: 'Chewy', cursive;
+      font-size: 22px;
+      color: #7A5A00;
+      line-height: 1.3;
+    }
+
+    .quote-sub {
+      font-size: 12px;
+      color: #B8A060;
+      margin-top: 6px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      text-align: center;
+      margin: 28px 0 8px;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: #DDD;
+    }
+
+    .divider-inner {
+      display: inline-block;
+      position: relative;
+      background: var(--paper);
+      padding: 0 16px;
+      font-size: 13px;
+      color: #BBB;
+      letter-spacing: 3px;
+    }
+
+    /* ── DOWNLOAD BUTTON ── */
+    .download-area {
+      text-align: center;
+      margin: 40px 0 20px;
+    }
+
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Chewy', cursive;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+      padding: 14px 32px;
+      border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 0 #CC5500, 0 6px 16px rgba(255,107,0,0.3);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .dl-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #CC5500, 0 10px 20px rgba(255,107,0,0.35);
+    }
+
+    .dl-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #CC5500, 0 4px 10px rgba(255,107,0,0.25);
+    }
+
+    .dl-btn svg { width: 22px; height: 22px; }
+
+    .dl-sub {
+      font-size: 13px;
+      color: var(--ink-muted);
+      margin-top: 10px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #AAA;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .page-content { padding: 16px 16px 40px 24px; }
+      .notebook-inner::after { left: 24px; }
+      .grid-2, .grid-3, .phrase-grid, .rules-grid { grid-template-columns: 1fr; }
+      .header { flex-direction: column; }
+      .header-deco { flex-direction: row; }
+      .section-tab { margin-left: 0; border-radius: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="notebook">
+  <div class="binding">
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+  </div>
+
+  <div class="notebook-inner">
+    <div class="washi-top">
+      <div class="washi-seg w1"></div><div class="washi-seg w2"></div>
+      <div class="washi-seg w3"></div><div class="washi-seg w4"></div>
+      <div class="washi-seg w5"></div><div class="washi-seg w6"></div>
+      <div class="washi-seg w1"></div><div class="washi-seg w3"></div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- HEADER -->
+      <div class="header">
+        <div>
+          <div class="eic-badge">EIC BOOK CLUB</div>
+          <div class="main-title">My <span>Book Club</span> Guide</div>
+          <div class="subtitle">
+            How to read, think and write about books in English<br>
+            <em>Como ler, pensar e escrever sobre livros em inglês</em>
+          </div>
+        </div>
+        <div class="header-deco">
+          <div style="display:flex;gap:6px;">
+            <div class="bookmark-strip bm1"></div>
+            <div class="bookmark-strip bm2"></div>
+            <div class="bookmark-strip bm3"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: WHY READ -->
+      <div class="section-tab tab-orange">
+        <span class="tab-num">1</span> Why even bother?
+      </div>
+      <div class="postit-grid grid-2">
+        <div class="postit postit-yellow" style="--tilt:-1.5deg">
+          <div class="postit-title">Reading = a brain workout</div>
+          Every chapter makes you stronger. Your English grows every time you read — even when it feels hard!
+          <br><br>
+          <span style="font-size:12px;color:#888;font-style:italic;">Cada capítulo te deixa mais forte no inglês — mesmo quando parece difícil!</span>
+        </div>
+        <div class="postit postit-blue" style="--tilt:1.2deg">
+          <div class="postit-title">You learn words naturally</div>
+          Seeing words <span class="hl-y">in context</span> is way more powerful than memorizing lists. Stories make them stick!
+          <br><br>
+          <span style="font-size:12px;color:#888;font-style:italic;">Ver palavras em contexto é muito mais eficaz do que listas de vocabulário.</span>
+        </div>
+        <div class="postit postit-green" style="--tilt:-0.8deg">
+          <div class="postit-title">Writing helps you remember</div>
+          When you write your review, your brain processes the story <span class="hl-g">one more time</span> — and keeps it!
+          <br><br>
+          <span style="font-size:12px;color:#888;font-style:italic;">Escrever faz o cérebro processar a história mais uma vez — e ela fica!</span>
+        </div>
+        <div class="postit postit-pink" style="--tilt:1.8deg">
+          <div class="postit-title">Your opinion matters</div>
+          There are <span class="hl-p">no wrong answers</span> in a book review. What YOU think is exactly what we want to hear.
+          <br><br>
+          <span style="font-size:12px;color:#888;font-style:italic;">Não existe resposta errada. O que VOCÊ pensa é o que queremos ouvir.</span>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-inner">~ ~ ~</div></div>
+
+      <!-- SECTION 2: BEFORE YOU READ -->
+      <div class="section-tab tab-pink">
+        <span class="tab-num">2</span> Before you read
+      </div>
+      <div class="nb-card">
+        <div class="nb-card-content">
+          <div style="font-family:'Chewy',cursive;font-size:22px;margin-bottom:4px;color:var(--ink);">Get yourself ready!</div>
+          <div style="font-size:12px;color:#999;margin-bottom:16px;font-style:italic;">Prepare-se antes de começar</div>
+
+          <div class="step-row">
+            <div class="step-circle" style="background:var(--pink);">1</div>
+            <div>
+              <div class="step-text"><strong>Scan before you dive in.</strong> Look at the chapter title, any pictures or headings. Ask: <span class="hl-b">"What do I think this chapter will be about?"</span></div>
+              <div class="step-sub">Olhe o título e as imagens antes. Tente adivinhar o que vai acontecer.</div>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-circle" style="background:var(--orange);">2</div>
+            <div>
+              <div class="step-text"><strong>Have a pen ready.</strong> Circle words you don't know as you read. Don't stop to look them up — just mark them!</div>
+              <div class="step-sub">Deixe uma caneta do lado. Marque as palavras desconhecidas sem parar a leitura.</div>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-circle" style="background:var(--purple);">3</div>
+            <div>
+              <div class="step-text"><strong>Put the phone away.</strong> Give yourself at least <span class="hl-y">20 minutes</span> of quiet reading time. You deserve it.</div>
+              <div class="step-sub">Deixe o celular de lado. Pelo menos 20 minutos de leitura tranquila.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-inner">~ ~ ~</div></div>
+
+      <!-- SECTION 3: WHILE YOU READ -->
+      <div class="section-tab tab-teal">
+        <span class="tab-num">3</span> While you read
+      </div>
+      <div class="postit-grid grid-2">
+        <div class="postit postit-teal" style="--tilt:-1.3deg">
+          <div class="postit-title">Underline things!</div>
+          Sentences that surprise you, make you laugh, or feel really important. Your future self will thank you.
+          <br><br><span style="font-size:12px;color:#555;font-style:italic;">Sublinhe frases que te surpreendam ou pareçam importantes.</span>
+        </div>
+        <div class="postit postit-orange" style="--tilt:1.4deg">
+          <div class="postit-title">Ask yourself questions</div>
+          <span class="hl-y">"Do I like what's happening?"</span><br>
+          <span class="hl-g">"What would I do here?"</span><br>
+          <span class="hl-p">"Who is my favorite character?"</span>
+          <br><br><span style="font-size:12px;color:#555;font-style:italic;">Pergunte a si mesmo: eu gostaria de estar nessa situação?</span>
+        </div>
+        <div class="postit postit-purple" style="--tilt:-0.7deg">
+          <div class="postit-title">Guess new words</div>
+          Before checking the dictionary, try to <span class="hl-b">guess the meaning</span> from the sentence around it. You'll be surprised how often you're right!
+          <br><br><span style="font-size:12px;color:#555;font-style:italic;">Tente adivinhar o significado pelo contexto antes de procurar no dicionário.</span>
+        </div>
+        <div class="postit postit-yellow" style="--tilt:1.1deg">
+          <div class="postit-title">Take mini notes</div>
+          One sentence per scene or page is enough. You don't need to write everything — just what stands out to YOU.
+          <br><br><span style="font-size:12px;color:#555;font-style:italic;">Uma frase por cena já basta. Escreva o que chamou sua atenção.</span>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-inner">~ ~ ~</div></div>
+
+      <!-- SECTION 4: YOUR REVIEW -->
+      <div class="section-tab tab-purple">
+        <span class="tab-num">4</span> Writing your review
+      </div>
+
+      <div class="postit postit-orange postit-wide" style="margin-bottom:16px;">
+        <div class="postit-title">The 6 building blocks</div>
+        Your review has 6 sections. You don't need to write a lot — just a few honest sentences in each one!
+        <br><span style="font-size:12px;color:#666;font-style:italic;">Sua resenha tem 6 partes. Poucas frases honestas em cada uma já são suficientes!</span>
+      </div>
+
+      <div class="postit-grid grid-2">
+        <div class="postit postit-orange" style="--tilt:-1deg">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--orange);margin-bottom:4px;">Block 1</div>
+          <div class="postit-title">Summary</div>
+          What happened in this chapter? 3 to 5 sentences. Keep it short!
+          <br><span style="font-size:12px;color:#666;font-style:italic;">O que aconteceu neste capítulo? Resumo em 3 a 5 frases.</span>
+        </div>
+        <div class="postit postit-pink" style="--tilt:1.2deg">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--pink);margin-bottom:4px;">Block 2</div>
+          <div class="postit-title">Favorite Moment</div>
+          What scene did you love (or hate)? Why did it stand out?
+          <br><span style="font-size:12px;color:#666;font-style:italic;">Qual cena você amou ou odiou? Por que ela se destacou?</span>
+        </div>
+        <div class="postit postit-teal" style="--tilt:-1.4deg">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--teal);margin-bottom:4px;">Block 3</div>
+          <div class="postit-title">A Character</div>
+          Pick one character. What did they do? What do you think of them?
+          <br><span style="font-size:12px;color:#666;font-style:italic;">Escolha um personagem. O que ele fez? O que você acha dele?</span>
+        </div>
+        <div class="postit postit-purple" style="--tilt:0.9deg">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--purple);margin-bottom:4px;">Block 4</div>
+          <div class="postit-title">My Opinion</div>
+          Did you enjoy this chapter? Was it boring, exciting, surprising?
+          <br><span style="font-size:12px;color:#666;font-style:italic;">Você gostou deste capítulo? Foi chato, empolgante, surpreendente?</span>
+        </div>
+        <div class="postit postit-blue" style="--tilt:-0.6deg">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--blue);margin-bottom:4px;">Block 5</div>
+          <div class="postit-title">New Words</div>
+          List 3 to 5 new words + what they mean. Your personal vocabulary list!
+          <br><span style="font-size:12px;color:#666;font-style:italic;">Anote 3 a 5 palavras novas e o que significam.</span>
+        </div>
+        <div class="postit postit-yellow" style="--tilt:1.5deg">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--amber);margin-bottom:4px;">Block 6</div>
+          <div class="postit-title">What's Next?</div>
+          What do you think will happen next chapter? Make your prediction!
+          <br><span style="font-size:12px;color:#666;font-style:italic;">O que você acha que vai acontecer no próximo capítulo?</span>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-inner">~ ~ ~</div></div>
+
+      <!-- SECTION 5: PHRASES -->
+      <div class="section-tab tab-blue">
+        <span class="tab-num">5</span> Phrases to use
+      </div>
+
+      <div class="postit postit-blue postit-wide" style="margin-bottom:16px;">
+        <div class="postit-title">Don't know how to start? Use these!</div>
+        Copy, adapt, make them yours. That's exactly how language learning works.
+        <br><span style="font-size:12px;color:#555;font-style:italic;">Copie, adapte, torne-as suas. É exatamente assim que aprendemos um idioma.</span>
+      </div>
+
+      <div class="phrase-grid">
+        <div class="phrase-card pc-orange">
+          <div class="phrase-card-title">Summary</div>
+          "In this chapter, we learn that..."<br>
+          "The chapter starts with..."<br>
+          "The main event is when..."<br>
+          "By the end, [character] decides to..."<br>
+          "This chapter is mostly about..."<br>
+          "The story takes place in / at..."<br>
+          "Things change when..."
+        </div>
+        <div class="phrase-card pc-pink">
+          <div class="phrase-card-title">Favorite Moment</div>
+          "My favorite part was when..."<br>
+          "I loved / hated the scene where..."<br>
+          "I didn't expect [character] to..."<br>
+          "The most exciting / funny / sad moment was..."<br>
+          "This moment surprised me because..."<br>
+          "I laughed / cried / gasped when..."<br>
+          "I wish this part was longer because..."
+        </div>
+        <div class="phrase-card pc-teal">
+          <div class="phrase-card-title">A Character</div>
+          "My favorite character is ___ because..."<br>
+          "I think ___ is brave / funny / annoying / smart..."<br>
+          "In this chapter, ___ shows that he/she is..."<br>
+          "___ reminded me of ___ because..."<br>
+          "I don't trust ___ because..."<br>
+          "I felt sorry for ___ when..."<br>
+          "If I were ___, I would have..."
+        </div>
+        <div class="phrase-card pc-purple">
+          <div class="phrase-card-title">My Opinion</div>
+          "I really enjoyed this chapter because..."<br>
+          "I was surprised / confused / excited when..."<br>
+          "I felt happy / sad / scared / bored when..."<br>
+          "This chapter made me think about..."<br>
+          "I would rate this chapter ___ out of 5 because..."<br>
+          "The best / worst part of this chapter was..."<br>
+          "I think the author wanted us to feel..."
+        </div>
+        <div class="phrase-card pc-blue">
+          <div class="phrase-card-title">New Words</div>
+          "[Word] — it means ___ in Portuguese."<br>
+          "I looked up ___ and it means..."<br>
+          "I guessed ___ meant ___ because..."<br>
+          "A new word I liked was ___ because..."<br>
+          "The word ___ was used when..."<br>
+          "___ is similar to the Portuguese word..."<br>
+          "I want to remember ___ because..."
+        </div>
+        <div class="phrase-card pc-amber">
+          <div class="phrase-card-title">What's Next?</div>
+          "I think next chapter will be about..."<br>
+          "I predict that [character] is going to..."<br>
+          "I wonder if the author will..."<br>
+          "I hope [character] will..."<br>
+          "I think the conflict will..."<br>
+          "Based on what happened, I believe..."<br>
+          "The clue that made me think this was..."
+        </div>
+      </div>
+
+      <div class="postit postit-green postit-wide" style="margin-top:8px;">
+        <strong>Pro tip:</strong> It's totally OK to say <span class="hl-p">"I don't know how to say this in English, but..."</span> and explain in your own way. That's how you grow!
+        <br><span style="font-size:12px;color:#555;font-style:italic;">Está ótimo dizer "não sei como falar em inglês, mas..." e tentar explicar do seu jeito. É assim que se aprende!</span>
+      </div>
+
+      <div class="divider"><div class="divider-inner">~ ~ ~</div></div>
+
+      <!-- SECTION 6: VOCAB -->
+      <div class="section-tab tab-amber">
+        <span class="tab-num">6</span> Useful vocabulary
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-card-content">
+          <div style="font-family:'Chewy',cursive;font-size:22px;margin-bottom:4px;color:var(--ink);">Words for talking about books</div>
+          <div style="font-size:12px;color:#999;margin-bottom:16px;font-style:italic;">Palavras para falar sobre livros</div>
+
+          <div class="vocab-row">
+            <div class="vocab-word">Plot</div>
+            <div>The story — what happens from beginning to end. <em style="color:#999;font-size:13px;">(A história, os acontecimentos)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Setting</div>
+            <div>Where and when the story takes place. <em style="color:#999;font-size:13px;">(O cenário — lugar e época)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Character</div>
+            <div>A person (or animal!) in the story. <em style="color:#999;font-size:13px;">(Personagem)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Narrator</div>
+            <div>The "voice" telling the story. <em style="color:#999;font-size:13px;">(O narrador — a voz que conta a história)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Conflict</div>
+            <div>The main problem or challenge in the story. <em style="color:#999;font-size:13px;">(O conflito — problema principal)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Cliffhanger</div>
+            <div>When a chapter ends in suspense — you NEED to read more! <em style="color:#999;font-size:13px;">(Suspense no final do capítulo)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Foreshadowing</div>
+            <div>Hints about what might happen later — little clues. <em style="color:#999;font-size:13px;">(Pistas do que vai acontecer)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Theme</div>
+            <div>The big idea the author wants you to think about. <em style="color:#999;font-size:13px;">(O tema — a grande ideia da história)</em></div>
+          </div>
+          <div class="vocab-row">
+            <div class="vocab-word">Protagonist</div>
+            <div>The main character — the hero of the story. <em style="color:#999;font-size:13px;">(Protagonista — o personagem principal)</em></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-inner">~ ~ ~</div></div>
+
+      <!-- SECTION 7: GOLDEN RULES -->
+      <div class="section-tab tab-teal">
+        <span class="tab-num">7</span> The golden rules
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon" style="background:#FFE0B2;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#BF360C" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="rule-title" style="color:#BF360C;">No Google Translate</div>
+          Try to write in your own words first. <em style="font-size:12px;color:#999;font-style:normal;display:block;margin-top:4px;">Tente escrever com suas próprias palavras primeiro.</em>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon" style="background:#C8F7C5;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="rule-title" style="color:#1B5E20;">Mistakes are OK</div>
+          We care about your ideas, not perfect grammar. <em style="font-size:12px;color:#999;font-style:normal;display:block;margin-top:4px;">Errar faz parte. O que importa é sua ideia.</em>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon" style="background:#C8E6F7;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0D47A1" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="rule-title" style="color:#0D47A1;">Have an opinion</div>
+          There's no wrong answer — it's YOUR view! <em style="font-size:12px;color:#999;font-style:normal;display:block;margin-top:4px;">Não existe resposta errada. É SUA opinião!</em>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon" style="background:#FFD6E7;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#880E4F" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="rule-title" style="color:#880E4F;">Read twice</div>
+          First for fun, then to notice details. <em style="font-size:12px;color:#999;font-style:normal;display:block;margin-top:4px;">Primeiro por prazer, depois prestando atenção nos detalhes.</em>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon" style="background:#E1BEE7;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A148C" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="rule-title" style="color:#4A148C;">Talk about it</div>
+          Discussing with friends makes it stick! <em style="font-size:12px;color:#999;font-style:normal;display:block;margin-top:4px;">Conversar sobre o livro faz a história ficar na memória!</em>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon" style="background:#FFF9C4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7A5A00" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="rule-title" style="color:#7A5A00;">Celebrate!</div>
+          Reading in English is a big deal. <em style="font-size:12px;color:#999;font-style:normal;display:block;margin-top:4px;">Ler em inglês é uma conquista — comemore!</em>
+        </div>
+      </div>
+
+      <!-- QUOTE -->
+      <div class="quote-box">
+        <div class="quote-text">"A reader lives a thousand lives before he dies. The man who never reads lives only one."</div>
+        <div class="quote-sub">— George R.R. Martin &nbsp;·&nbsp; Now go read your chapter!</div>
+      </div>
+
+      <!-- DOWNLOAD -->
+      <div class="download-area">
+        <a href="book_review_eic.pdf" download class="dl-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download My Review Sheet
+        </a>
+        <div class="dl-sub">Folha de resenha semanal para imprimir — <em>Minha Resenha Semanal</em></div>
+      </div>
+
+    </div><!-- /page-content -->
+
+    <div class="footer">
+      EIC — Escola de Idiomas e Cultura &nbsp;·&nbsp; eicschool.com.br &nbsp;·&nbsp; Book Club
+    </div>
+
+  </div><!-- /notebook-inner -->
+</div><!-- /notebook -->
+
+<script>
+  const postits = document.querySelectorAll('.postit');
+  postits.forEach((el, i) => {
+    setTimeout(() => {
+      el.classList.add('landed');
+    }, 100 + i * 90);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.step-row, .phrase-card, .rule-card').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.08 + 's';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
