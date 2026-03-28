@@ -567,17 +567,6 @@
     obs.observe(el);
   });
 
-  // Class selector buttons
-  const csButtons = document.getElementById('csButtons');
-  Object.entries(CLUBS).forEach(([key, club]) => {
-    const btn = document.createElement('a');
-    btn.className = 'cs-btn' + (turma === key ? ' active' : '');
-    btn.href = '?turma=' + key;
-    btn.textContent = club.label;
-    csButtons.appendChild(btn);
-  });
-
-  // Calendar via URL param ?turma=
   const CLUBS = {
     kids6: {
       label: "Kids 6 — Duda's Class",
@@ -610,6 +599,16 @@
   }
 
   const turma = new URLSearchParams(window.location.search).get('turma');
+
+  // Class selector buttons
+  const csButtons = document.getElementById('csButtons');
+  Object.entries(CLUBS).forEach(([key, club]) => {
+    const btn = document.createElement('a');
+    btn.className = 'cs-btn' + (turma === key ? ' active' : '');
+    btn.href = '?turma=' + key;
+    btn.textContent = club.label;
+    csButtons.appendChild(btn);
+  });
   if (turma && CLUBS[turma]) {
     const club = CLUBS[turma];
     const today = new Date(); today.setHours(0,0,0,0);
