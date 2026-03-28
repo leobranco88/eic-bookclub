@@ -70,6 +70,38 @@
     .bm2 { background: var(--teal); height: 42px; } .bm2::after { border-top: 12px solid var(--teal); }
     .bm3 { background: var(--yellow); height: 36px; border: 1px solid #E0B800; } .bm3::after { border-top: 12px solid var(--yellow); }
 
+    /* CLASS SELECTOR */
+    .class-selector {
+      background: #FFFEF5;
+      border: 1.5px solid #E0D8C0;
+      border-radius: 8px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .cs-label {
+      font-size: 15px;
+      color: var(--ink-muted);
+      margin-bottom: 14px;
+    }
+    .cs-label em { font-style: normal; font-size: 13px; color: #AAA; }
+    .cs-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .cs-btn {
+      font-family: 'Chewy', cursive;
+      font-size: 17px;
+      padding: 8px 22px;
+      border-radius: 20px;
+      border: 2px solid var(--orange);
+      background: white;
+      color: var(--orange);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, transform 0.1s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .cs-btn:hover { background: var(--orange); color: white; transform: scale(1.05); }
+    .cs-btn.active { background: var(--orange); color: white; }
+
     /* CALENDAR */
     .calendar-section { background: #fff; border: 2px solid var(--orange); border-radius: 8px; padding: 24px 28px; margin-bottom: 36px; position: relative; }
     .calendar-section.hidden { display: none; }
@@ -231,6 +263,12 @@
             <div class="bookmark-strip bm3"></div>
           </div>
         </div>
+      </div>
+
+      <!-- CLASS SELECTOR -->
+      <div class="class-selector" id="classSelector">
+        <div class="cs-label">Which class are you in? &nbsp;<em>Qual é a sua turma?</em></div>
+        <div class="cs-buttons" id="csButtons"></div>
       </div>
 
       <!-- CALENDAR (shown via ?turma=) -->
@@ -529,9 +567,20 @@
     obs.observe(el);
   });
 
+  // Class selector buttons
+  const csButtons = document.getElementById('csButtons');
+  Object.entries(CLUBS).forEach(([key, club]) => {
+    const btn = document.createElement('a');
+    btn.className = 'cs-btn' + (turma === key ? ' active' : '');
+    btn.href = '?turma=' + key;
+    btn.textContent = club.label;
+    csButtons.appendChild(btn);
+  });
+
   // Calendar via URL param ?turma=
   const CLUBS = {
     kids6: {
+      label: "Kids 6 — Duda's Class",
       title: "Kids 6 — Reading Schedule",
       book: "Charlie and the Chocolate Factory · Roald Dahl",
       schedule: [
